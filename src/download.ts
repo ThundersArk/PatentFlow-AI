@@ -22,6 +22,6 @@ export function safeFileName(value: string, fallback = "PatentFlow"): string {
   const candidate = clean(value) || clean(fallback) || "PatentFlow";
   const baseName = candidate.split(".", 1)[0].replace(/[. ]+$/g, "");
   return /^(?:con|prn|aux|nul|com[1-9]|lpt[1-9])$/i.test(baseName)
-    ? `_${candidate}`.slice(0, 60)
+    ? clean(`_${candidate}`)
     : candidate;
 }

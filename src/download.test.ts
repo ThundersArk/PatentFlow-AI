@@ -17,3 +17,13 @@ test("safeFileName preserves ordinary names and the length limit", () => {
   assert.equal(safeFileName("一种云检测方法"), "一种云检测方法");
   assert.equal(safeFileName("a".repeat(80)).length, 60);
 });
+
+test("safeFileName cleans trailing characters exposed by reserved-name truncation", () => {
+  const expected = "_CON." + "a".repeat(54);
+  for (const character of [".", " "]) {
+    const input = "CON." + "a".repeat(54) + character + "a";
+    assert.equal(input.length, 60);
+    assert.equal(safeFileName(input), expected);
+    assert.equal(safeFileName("", input), expected);
+  }
+});
